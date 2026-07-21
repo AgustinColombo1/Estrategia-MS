@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrategia de Michael Saylor — Acumulación BTC 5X</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070d;
+    --bg-alt:#0a0f1c;
+    --panel:#0e1526;
+    --panel-border:#1c2740;
+    --blue:#2f5fff;
+    --blue-light:#7fa6ff;
+    --blue-dim:#1a3380;
+    --white:#f5f7fb;
+    --muted:#8891a8;
+    --muted-dim:#5b6480;
+    --amber:#f5a623;
+    --red:#ff4757;
+    --red-light:#ff9a9a;
+    --red-mid:#ff7a7a;
+    --red-strong:#ff5a5a;
+    --green:#34d399;
+    --font-display:'Bricolage Grotesque',sans-serif;
+    --font-body:'Instrument Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--white);
+    font-family:var(--font-body);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--blue-light);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue-light);box-shadow:0 0 8px var(--blue-light);}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--blue);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:15px;
+    padding:14px 26px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    box-shadow:0 0 0 0 rgba(47,95,255,0.5);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(47,95,255,0.35);}
+  .btn:focus-visible{outline:2px solid var(--blue-light);outline-offset:3px;}
+  .btn-ghost{
+    background:transparent;
+    border:1px solid var(--panel-border);
+    color:var(--white);
+  }
+  .btn-ghost:hover{border-color:var(--blue-light);box-shadow:none;background:rgba(47,95,255,0.08);}
+  .btn svg{transition:transform .18s ease;}
+  .btn:hover svg{transform:translateX(3px);}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(5,7,13,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--panel-border);
+  }
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:17px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-light));
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:700;font-size:14px;color:#fff;
+  }
+  .logo-text{display:flex;flex-direction:column;line-height:1.15;}
+  .logo-text small{font-family:var(--font-mono);font-size:10px;font-weight:400;color:var(--muted);letter-spacing:0.06em;}
+  .nav-links{display:flex;gap:32px;font-size:14px;color:var(--muted);}
+  .nav-links a:hover{color:var(--white);}
+  .nav-cta{display:flex;align-items:center;gap:16px;}
+  .status-pill{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--amber);
+    border:1px solid rgba(245,166,35,0.35);
+    background:rgba(245,166,35,0.08);
+    padding:6px 12px;
+    border-radius:999px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .status-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--amber);}
+  @media (max-width:860px){.nav-links{display:none;}}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding:96px 0 80px;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(47,95,255,0.22), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(47,95,255,0.12), transparent 55%);
+    border-bottom:1px solid var(--panel-border);
+    overflow:hidden;
+  }
+  .hero-bg-letter{
+    position:absolute;
+    right:-80px;top:-60px;
+    font-family:var(--font-display);
+    font-size:560px;
+    font-weight:700;
+    color:rgba(47,95,255,0.045);
+    line-height:1;
+    user-select:none;
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+    position:relative;
+  }
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero h1{
+    font-size:clamp(34px,5vw,58px);
+    line-height:1.08;
+    margin:20px 0 22px;
+  }
+  .hero h1 .hl-amber{color:var(--amber);}
+  .hero h1 .hl-blue{color:var(--blue-light);}
+  .hero p.lead{
+    font-size:17px;
+    color:var(--muted);
+    max-width:520px;
+    margin-bottom:32px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;}
+  .hero-fineprint{
+    font-size:12px;color:var(--muted-dim);
+    max-width:480px;
+    padding-top:14px;
+    border-top:1px solid var(--panel-border);
+  }
+
+  /* performance panel on hero */
+  .perf-panel{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:20px;
+    padding:26px;
+    position:relative;
+  }
+  .perf-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .perf-head .ticker{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:0.03em;}
+  .perf-head .ticker b{color:var(--blue-light);font-weight:600;}
+  .live-pill{
+    font-family:var(--font-mono);font-size:10.5px;color:var(--blue-light);
+    border:1px solid rgba(127,166,255,0.35);
+    background:rgba(47,95,255,0.08);
+    padding:5px 10px;border-radius:999px;
+    white-space:nowrap;
+  }
+  .perf-chart{width:100%;height:auto;display:block;margin-bottom:18px;}
+  .perf-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--panel-border);}
+  .perf-stat{padding:14px 6px 0;}
+  .perf-stat:not(:first-child){border-left:1px solid var(--panel-border);padding-left:14px;}
+  .perf-stat .k{font-family:var(--font-mono);font-size:10px;color:var(--muted-dim);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+  .perf-stat .v{font-family:var(--font-body);font-size:15px;font-weight:600;}
+  .perf-stat .v.accent-green{color:var(--green);}
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:88px 0;}
+  .section-head{max-width:640px;margin-bottom:52px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,36px);margin-top:14px;}
+  .section-head p{color:var(--muted);font-size:15.5px;margin-top:14px;}
+  .divider{height:1px;background:var(--panel-border);border:none;}
+
+  /* ---------- ASSETS / COPY TRADING LINKS ---------- */
+  .assets-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  @media (max-width:860px){.assets-grid{grid-template-columns:1fr;}}
+  .asset-card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:18px;
+    padding:28px;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .asset-card:hover{border-color:var(--blue-dim);transform:translateY(-3px);}
+  .asset-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+  .asset-icon{
+    width:46px;height:46px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .asset-icon.btc{background:rgba(247,147,26,0.12);color:#f7931a;}
+  .asset-icon.sol{background:rgba(20,241,149,0.1);color:#14f195;}
+  .asset-icon.mstr{background:rgba(47,95,255,0.12);color:var(--blue-light);}
+  .asset-icon svg,.asset-icon span{font-family:var(--font-mono);font-weight:700;font-size:15px;}
+  .asset-name{font-family:var(--font-display);font-size:17px;font-weight:600;}
+  .asset-ticker{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);}
+  .asset-desc{font-size:13.5px;color:var(--muted);margin-bottom:20px;min-height:60px;}
+  .asset-specs{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--panel-border);}
+  .asset-spec-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--panel-border);font-size:13px;}
+  .asset-spec-row:last-child{border-bottom:none;}
+  .asset-spec-row span:first-child{color:var(--muted-dim);}
+  .asset-spec-row span:last-child{font-family:var(--font-mono);font-weight:600;}
+  .risk-low{color:var(--green);}
+  .risk-mid{color:var(--amber);}
+  .risk-high{color:var(--red);}
+  .asset-btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;
+    margin-top:20px;
+    background:var(--blue);
+    border:none;
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:13.5px;
+    padding:13px 16px;
+    border-radius:10px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .asset-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(47,95,255,0.3);}
+  .asset-btn svg{transition:transform .18s ease;}
+  .asset-btn:hover svg{transform:translateX(3px);}
+  .assets-note{font-size:12px;color:var(--muted-dim);margin-top:20px;}
+
+  /* ---------- BINGX / COPY INSTRUCTIONS ---------- */
+  .copy-panel{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:20px;
+    overflow:hidden;
+  }
+  @media (max-width:860px){.copy-panel{grid-template-columns:1fr;}}
+  .copy-panel .left{padding:44px;}
+  .copy-panel .right{
+    padding:44px;
+    background:var(--bg-alt);
+    border-left:1px solid var(--panel-border);
+  }
+  @media (max-width:860px){.copy-panel .right{border-left:none;border-top:1px solid var(--panel-border);}}
+  .copy-list{list-style:none;display:flex;flex-direction:column;gap:18px;margin-top:24px;}
+  .copy-list li{display:flex;gap:14px;font-size:14.5px;color:var(--muted);}
+  .copy-list .n{
+    font-family:var(--font-mono);
+    font-size:12px;color:var(--blue-light);
+    width:24px;height:24px;flex-shrink:0;
+    border:1px solid var(--panel-border);
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .fee-row{display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid var(--panel-border);font-size:14px;}
+  .fee-row span:first-child{color:var(--muted);}
+  .fee-row span:last-child{font-family:var(--font-mono);font-weight:600;}
+
+  /* ---------- COMO FUNCIONA ---------- */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--panel-border);
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    overflow:hidden;
+  }
+  @media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.steps{grid-template-columns:1fr;}}
+  .step{
+    background:var(--panel);
+    padding:28px 24px;
+  }
+  .step .num{font-family:var(--font-mono);color:var(--blue-light);font-size:13px;}
+  .step h3{font-size:17px;margin:14px 0 10px;}
+  .step p{font-size:13.5px;color:var(--muted);}
+
+  /* ---------- RULES TABLE ---------- */
+  .rules-panel{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:20px;
+    padding:8px;
+  }
+  .rules-row{
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr 1fr;
+    align-items:center;
+    gap:12px;
+    padding:18px 20px;
+    border-radius:14px;
+  }
+  .rules-row.head{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--muted-dim);
+    padding-bottom:12px;
+  }
+  .rules-row:not(.head){border-top:1px solid var(--panel-border);}
+  .rules-row .tier-label{display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px;}
+  .bullet-clip{display:flex;gap:3px;}
+  .bullet-clip i{width:6px;height:16px;border-radius:2px;display:inline-block;background:var(--panel-border);}
+  .rules-row.pos .bullet-clip i{background:var(--green);}
+  .rules-row.neutral .bullet-clip i{background:var(--muted);}
+  .rules-row.neg1 .bullet-clip i{background:var(--red-light);}
+  .rules-row.neg2 .bullet-clip i{background:var(--red-mid);}
+  .rules-row.neg3 .bullet-clip i{background:var(--red-strong);}
+  .rules-row.neg4 .bullet-clip i{background:var(--red);}
+  .rules-row .stat{font-family:var(--font-mono);font-size:14px;color:var(--white);}
+  .rules-row .stat small{display:block;color:var(--muted-dim);font-size:11px;margin-top:2px;}
+  .rules-row.pos .cond{color:var(--green);}
+  .rules-row.neg1 .cond,.rules-row.neg2 .cond{color:var(--red-mid);}
+  .rules-row.neg3 .cond,.rules-row.neg4 .cond{color:var(--red);}
+  .rules-row.pos .stat{color:var(--green);}
+  .rules-row.neg1 .stat,.rules-row.neg2 .stat{color:var(--red-mid);}
+  .rules-row.neg3 .stat,.rules-row.neg4 .stat{color:var(--red);}
+  @media (max-width:760px){
+    .rules-row{grid-template-columns:1fr 1fr;row-gap:6px;}
+    .rules-row.head{display:none;}
+    .rules-row .tier-label{grid-column:1/-1;}
+  }
+
+  /* ---------- RESULTADOS ---------- */
+  .results-banner{
+    background:linear-gradient(135deg,var(--blue-dim),var(--bg-alt));
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    padding:16px 22px;
+    font-size:13.5px;
+    color:var(--blue-light);
+    margin-bottom:40px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--panel-border);
+    border:1px solid var(--panel-border);
+    border-radius:16px;
+    overflow:hidden;
+  }
+  @media (max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{background:var(--panel);padding:30px 24px;}
+  .stat-card .value{
+    font-family:var(--font-mono);
+    font-size:clamp(24px,3vw,32px);
+    font-weight:700;
+    color:var(--white);
+  }
+  .stat-card .value.pos{color:var(--green);}
+  .stat-card .label{font-size:12.5px;color:var(--muted);margin-top:8px;}
+
+  /* ---------- DISCLAIMER ---------- */
+  .disclaimer{
+    background:var(--bg-alt);
+    border:1px solid rgba(255,71,87,0.25);
+    border-radius:16px;
+    padding:32px;
+  }
+  .disclaimer h3{font-size:15px;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .disclaimer p{font-size:13.5px;color:var(--muted);margin-bottom:10px;}
+  .disclaimer p:last-child{margin-bottom:0;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--panel-border);padding:44px 0;}
+  .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .footer-links{display:flex;gap:24px;font-size:13px;color:var(--muted);}
+  .footer-links a:hover{color:var(--white);}
+  .footer-note{font-size:12px;color:var(--muted-dim);margin-top:20px;}
+
+  .fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .fade-up.in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo">
+        <div class="logo-mark">MS</div>
+        <div class="logo-text">
+          ESTRATEGIA<br>MICHAEL SAYLOR
+          <small>COPY TRADING · BTC 5X</small>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#copytrading">Copy trading</a>
+        <a href="#instructivo">Instructivo</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#reglas">Reglas</a>
+        <a href="#resultados">Resultados</a>
+      </div>
+      <div class="nav-cta">
+        <span class="status-pill">Arranca en 4–8 semanas</span>
+        <a href="#copytrading" class="btn" style="padding:10px 20px;font-size:13.5px;">Copiar en BingX</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg-letter">฿</div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Estrategia alcista · Solo longs · BTC · 5X</span>
+      <h1>Acumulá <span class="hl-amber">+</span> <span class="hl-blue">apalancá</span></h1>
+      <p class="lead">Estrategia de trading basada en el sistema de compras de Strategy, aplicada al mercado retail.</p>
+      <div class="hero-actions">
+        <a href="#copytrading" class="btn">
+          Copiar estrategia en BingX
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1MoF_fwTcCEFeAZovVhXgYXXOyEV_YVzZvg7nesL1uZo/edit?usp=sharing" target="_blank" rel="noopener" class="btn btn-ghost">Ver reglas de recarga</a>
+      </div>
+      <p class="hero-fineprint">Estrategia inspirada en el enfoque público de acumulación de Bitcoin de Michael Saylor / Strategy. No representa afiliación, asociación ni respaldo por parte de esas personas o empresas. El trading con apalancamiento implica riesgo de pérdida total del capital.</p>
+    </div>
+    <div class="perf-panel">
+      <div class="perf-head">
+        <span class="ticker">BTC-USDT · PERP &nbsp;<b>PERFORMANCE</b></span>
+        <span class="live-pill">EN VIVO</span>
+      </div>
+      <svg class="perf-chart" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="50" x2="600" y2="50" stroke="#1c2740" stroke-width="1"/>
+        <line x1="0" y1="120" x2="600" y2="120" stroke="#1c2740" stroke-width="1"/>
+        <line x1="0" y1="190" x2="600" y2="190" stroke="#1c2740" stroke-width="1"/>
+        <g stroke="#1c2740" stroke-width="3" opacity="0.6">
+          <line x1="40" y1="200" x2="40" y2="230"/>
+          <line x1="80" y1="175" x2="80" y2="205"/>
+          <line x1="120" y1="190" x2="120" y2="215"/>
+          <line x1="160" y1="140" x2="160" y2="165"/>
+          <line x1="200" y1="155" x2="200" y2="185"/>
+          <line x1="240" y1="105" x2="240" y2="135"/>
+          <line x1="280" y1="90" x2="280" y2="115"/>
+          <line x1="320" y1="50" x2="320" y2="75"/>
+          <line x1="360" y1="70" x2="360" y2="95"/>
+          <line x1="400" y1="40" x2="400" y2="65"/>
+          <line x1="440" y1="30" x2="440" y2="55"/>
+          <line x1="480" y1="45" x2="480" y2="70"/>
+          <line x1="520" y1="15" x2="520" y2="40"/>
+          <line x1="560" y1="10" x2="560" y2="35"/>
+        </g>
+        <line x1="20" y1="225" x2="570" y2="20" stroke="#5b6480" stroke-width="1" stroke-dasharray="4 5"/>
+        <polyline points="20,220 80,190 120,205 160,150 200,170 240,120 280,100 320,60 360,80 400,50 440,40 480,55 520,25 560,20" fill="none" stroke="#7fa6ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="160" cy="150" r="4" fill="#7fa6ff"/>
+        <circle cx="320" cy="60" r="4" fill="#7fa6ff"/>
+        <circle cx="560" cy="20" r="5" fill="#7fa6ff"/>
+      </svg>
+      <div class="perf-stats">
+        <div class="perf-stat">
+          <div class="k">Rendimiento (últ. año)</div>
+          <div class="v">[COMPLETAR]%</div>
+        </div>
+        <div class="perf-stat">
+          <div class="k">Drawdown máx.</div>
+          <div class="v">[COMPLETAR]%</div>
+        </div>
+        <div class="perf-stat">
+          <div class="k">Estado</div>
+          <div class="v accent-green">En preparación</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="copytrading">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <span class="eyebrow">Copy trading</span>
+      <h2>Copy trading links</h2>
+      <p>Podés hacer la estrategia manualmente o copiar automáticamente.</p>
+    </div>
+    <div class="assets-grid fade-up">
+
+      <div class="asset-card">
+        <div class="asset-head">
+          <div class="asset-icon btc"><span>₿</span></div>
+          <div>
+            <div class="asset-name">Bitcoin</div>
+            <div class="asset-ticker">BTC/USDT · Futuros perpetuos</div>
+          </div>
+        </div>
+        <p class="asset-desc">La estrategia base. Recarga diaria fija que escala según el drawdown de la posición, promediando el precio de entrada de BTC.</p>
+        <div class="asset-specs">
+          <div class="asset-spec-row"><span>Apalancamiento</span><span>5X</span></div>
+          <div class="asset-spec-row"><span>Balas por ciclo</span><span>1 a 6</span></div>
+          <div class="asset-spec-row"><span>Riesgo relativo</span><span class="risk-low">Menor</span></div>
+        </div>
+        <a href="#" class="asset-btn" target="_blank" rel="noopener">
+          Copiar en BingX
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-head">
+          <div class="asset-icon sol"><span>◎</span></div>
+          <div>
+            <div class="asset-name">Solana</div>
+            <div class="asset-ticker">SOL/USDT · Futuros perpetuos</div>
+          </div>
+        </div>
+        <p class="asset-desc">Misma mecánica de recarga por drawdown que BTC, aplicada a SOL para capturar el mayor beta del activo dentro del mismo marco de riesgo.</p>
+        <div class="asset-specs">
+          <div class="asset-spec-row"><span>Apalancamiento</span><span>5X</span></div>
+          <div class="asset-spec-row"><span>Balas por ciclo</span><span>1 a 6</span></div>
+          <div class="asset-spec-row"><span>Riesgo relativo</span><span class="risk-mid">Medio</span></div>
+        </div>
+        <a href="#" class="asset-btn" target="_blank" rel="noopener">
+          Copiar en BingX
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="asset-card">
+        <div class="asset-head">
+          <div class="asset-icon mstr"><span>MSTR</span></div>
+          <div>
+            <div class="asset-name">Strategy (MSTR)</div>
+            <div class="asset-ticker">MSTR · Futuros apalancados</div>
+          </div>
+        </div>
+        <p class="asset-desc">Exposición apalancada a Strategy (ex MicroStrategy), la empresa con mayor tesorería corporativa en Bitcoin, bajo la misma lógica de acumulación por recarga.</p>
+        <div class="asset-specs">
+          <div class="asset-spec-row"><span>Apalancamiento</span><span>5X</span></div>
+          <div class="asset-spec-row"><span>Balas por ciclo</span><span>1 a 6</span></div>
+          <div class="asset-spec-row"><span>Riesgo relativo</span><span class="risk-high">Mayor</span></div>
+        </div>
+        <a href="#" class="asset-btn" target="_blank" rel="noopener">
+          Copiar en BingX
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+    </div>
+    <p class="assets-note">Las tres estrategias comparten la misma tabla de escalado de balas por drawdown (ver sección Reglas). El riesgo relativo es indicativo: los tres activos operan apalancados 5X y pueden generar pérdida total del capital destinado.</p>
+  </div>
+</section>
+
+<section id="instructivo">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <span class="eyebrow">Instructivo</span>
+      <h2>Instructivo para copiar</h2>
+    </div>
+    <div class="copy-panel fade-up">
+      <div class="left">
+        <h3 style="font-size:19px;margin-bottom:4px;">Pasos para copiar</h3>
+        <p style="color:var(--muted);font-size:13.5px;">Todo se ejecuta dentro de tu cuenta de BingX. Vos mantenés el control de tus fondos en todo momento.</p>
+        <ul class="copy-list">
+          <li><span class="n">1</span>Creá o ingresá a tu cuenta de BingX y cargá el capital que vas a destinar a copy trading.</li>
+          <li><span class="n">2</span>Buscá el perfil de la estrategia dentro de la sección Copy Trading de BingX.</li>
+          <li><span class="n">3</span>Definí tu monto por operación — podés replicar el tamaño exacto de "balas" o ajustarlo a tu capital.</li>
+          <li><span class="n">4</span>Activá el copiado. A partir de ahí, cada recarga se replica automáticamente en tu cuenta.</li>
+        </ul>
+        <a href="#" class="btn" style="margin-top:28px;">
+          Ir al perfil en BingX
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p style="font-size:11.5px;color:var(--muted-dim);margin-top:10px;">[Link al perfil de copy trading — pendiente hasta el lanzamiento del ciclo]</p>
+      </div>
+      <div class="right">
+        <h3 style="font-size:19px;margin-bottom:20px;">Condiciones</h3>
+        <div class="fee-row" style="border-top:none;"><span>Apalancamiento</span><span>5X</span></div>
+        <div class="fee-row"><span>Activo</span><span>BTC/USDT</span></div>
+        <div class="fee-row"><span>Dirección</span><span>Solo long</span></div>
+        <div class="fee-row"><span>Frecuencia de recarga</span><span>Diaria</span></div>
+        <div class="fee-row"><span>Comisión sobre ganancias</span><span>16%</span></div>
+        <div class="fee-row"><span>Monto mínimo de BingX</span><span>$20 USD</span></div>
+        <div class="fee-row"><span>Monto mínimo sugerido</span><span>$1,000 USD</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <span class="eyebrow">El mecanismo</span>
+      <h2>DCA apalancado, sin discrecionalidad.</h2>
+      <p>Cada día se abre una posición long en futuros de BTC a 5X. El tamaño de la recarga siguiente depende únicamente de cómo viene el precio promedio de entrada — no de una corazonada. Todo queda registrado y es igual para todos los copiadores.</p>
+    </div>
+    <div class="steps fade-up">
+      <div class="step">
+        <span class="num">01</span>
+        <h3>Recarga diaria fija</h3>
+        <p>Ejemplo: $100 por "bala" (el monto puede ser mayor), apalancado 5X → $500 de exposición diaria en BTC. Se ejecuta todos los días de mercado, sin excepción.</p>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <h3>Promedio de entrada</h3>
+        <p>Cada recarga nueva se suma a la posición existente, moviendo el precio promedio de compra hacia el precio actual.</p>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <h3>Escalado por drawdown</h3>
+        <p>Si la posición está en rojo, la recarga siguiente crece en pasos definidos según el % de caída — nunca al azar.</p>
+      </div>
+      <div class="step">
+        <span class="num">04</span>
+        <h3>Solo longs a favor de la tendencia</h3>
+        <p>Sin shorts, sin altcoins, sin cambios de tesis a mitad de camino. Una tesis, un activo, una dirección.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reglas">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <span class="eyebrow">Reglas de la estrategia</span>
+      <h2>Así se aplica cada recarga según el momento del mercado</h2>
+      <p>Esta tabla es la totalidad de la lógica de la estrategia. No hay reglas ocultas ni ajustes manuales durante una posición abierta.</p>
+    </div>
+    <div class="rules-panel fade-up">
+      <div class="rules-row head">
+        <span>Escenario</span><span>Balas</span><span>Ejemplo monto</span><span>Exposición 5X</span>
+      </div>
+      <div class="rules-row pos" data-tier="1">
+        <div class="tier-label"><div class="bullet-clip"><i></i></div>Posición en positivo <span class="cond">&nbsp;· favorable</span></div>
+        <span class="stat">1 item</span>
+        <span class="stat">$100</span>
+        <span class="stat">$500</span>
+      </div>
+      <div class="rules-row neutral" data-tier="0">
+        <div class="tier-label"><div class="bullet-clip"><i></i><i></i></div>Inicio de ciclo</div>
+        <span class="stat">2 items</span>
+        <span class="stat">$200</span>
+        <span class="stat">$1,000</span>
+      </div>
+      <div class="rules-row neg1" data-tier="2">
+        <div class="tier-label"><div class="bullet-clip"><i></i><i></i></div>Negativo hasta 5%</div>
+        <span class="stat">2 items</span>
+        <span class="stat">$200</span>
+        <span class="stat">$1,000</span>
+      </div>
+      <div class="rules-row neg2" data-tier="3">
+        <div class="tier-label"><div class="bullet-clip"><i></i><i></i><i></i></div>Negativo hasta 10% <span class="cond">&nbsp;· atención</span></div>
+        <span class="stat">3 items</span>
+        <span class="stat">$300</span>
+        <span class="stat">$1,500</span>
+      </div>
+      <div class="rules-row neg3" data-tier="4">
+        <div class="tier-label"><div class="bullet-clip"><i></i><i></i><i></i><i></i></div>Negativo hasta 15% <span class="cond">&nbsp;· atención</span></div>
+        <span class="stat">4 items</span>
+        <span class="stat">$400</span>
+        <span class="stat">$2,000</span>
+      </div>
+      <div class="rules-row neg4" data-tier="5">
+        <div class="tier-label"><div class="bullet-clip"><i></i><i></i><i></i><i></i><i></i><i></i></div>Negativo +20% <span class="cond">&nbsp;· máxima recarga</span></div>
+        <span class="stat">6 items</span>
+        <span class="stat">$600</span>
+        <span class="stat">$3,000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="resultados">
+  <div class="wrap">
+    <div class="section-head fade-up">
+      <span class="eyebrow">Track record</span>
+      <h2>Cómo funcionó la misma lógica en el ciclo anterior.</h2>
+      <p>Este bot con esta tesis específica todavía no arrancó a operar — lo hará en el próximo tramo alcista. Los números de abajo son del ciclo de copy trading anterior que corrimos con reglas de gestión de riesgo equivalentes, y sirven como referencia de comportamiento, no como promesa de resultado futuro.</p>
+    </div>
+    <div class="results-banner fade-up">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Ciclo actual: bot en preparación, sin operaciones abiertas. Los datos de esta sección corresponden al ciclo anterior (bull market previo) y se actualizarán con datos en vivo del dashboard de BingX apenas arranque la nueva ejecución.</span>
+    </div>
+    <div class="stat-grid fade-up">
+      <div class="stat-card">
+        <div class="value">1,300+</div>
+        <div class="label">Copiadores en el ciclo anterior</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">$1.0M</div>
+        <div class="label">Capital total en copy trading (USD)</div>
+      </div>
+      <div class="stat-card">
+        <div class="value pos">30+</div>
+        <div class="label">Operaciones cerradas en positivo</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">~6 meses</div>
+        <div class="label">Duración del ciclo (tramo final del bull market)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="disclaimer fade-up">
+      <h3>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3l9-16z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Aviso de riesgo
+      </h3>
+      <p>Operar con futuros apalancados (5X) implica un riesgo alto y real de pérdida parcial o total del capital invertido, incluso siguiendo reglas de gestión de riesgo predefinidas. El desempeño pasado de esta u otras estrategias no garantiza resultados futuros.</p>
+      <p>Esta estrategia está inspirada en el enfoque público de acumulación de Bitcoin asociado a Michael Saylor y Strategy (ex MicroStrategy), pero es un producto independiente, sin afiliación, patrocinio ni respaldo de esas personas o empresas.</p>
+      <p>El copy trading se ejecuta a través de la plataforma BingX bajo tus propios términos de cuenta. Evaluá tu tolerancia al riesgo y considerá asesoramiento financiero independiente antes de destinar capital a estrategias apalancadas.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="logo">
+        <div class="logo-mark">MS</div>
+        <div class="logo-text">ESTRATEGIA<br>MICHAEL SAYLOR</div>
+      </div>
+      <div class="footer-links">
+        <a href="#copytrading">Copy trading</a>
+        <a href="#instructivo">Instructivo</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#reglas">Reglas</a>
+        <a href="#resultados">Resultados</a>
+      </div>
+    </div>
+    <p class="footer-note">Contenido con fines informativos. No constituye asesoramiento financiero. Copy trading disponible a través de BingX. © <span id="year"></span> Estrategia de Michael Saylor.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
