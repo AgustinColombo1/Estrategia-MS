@@ -218,6 +218,9 @@
     border-radius:18px;
     padding:28px;
     transition:border-color .18s ease, transform .18s ease;
+    display:flex;
+    flex-direction:column;
+    height:100%;
   }
   .asset-card:hover{border-color:var(--blue-dim);transform:translateY(-3px);}
   .asset-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
@@ -245,7 +248,7 @@
   .asset-btn{
     display:flex;align-items:center;justify-content:center;gap:8px;
     width:100%;
-    margin-top:20px;
+    margin-top:auto;
     background:var(--blue);
     border:none;
     color:#fff;
